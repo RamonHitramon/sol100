@@ -2,7 +2,7 @@ import {updateCharts} from './paper-charts.mjs?v=r4v1';
 import {holdModel,pnlModel,entryDelay,formatDuration,formatUTC,formatSOL,formatPercent,safeLinks,selectPositions,countModel} from './paper-table-model.mjs?v=r4v1';
 const feed='https://raw.githubusercontent.com/RamonHitramon/sol100/refs/heads/paper-feed/live-paper.json';
 const $=id=>document.getElementById(id);
-const sol=v=>Number(v).toFixed(6)+' SOL';
+const sol=v=>Number(v).toFixed(3)+' SOL';
 const at=t=>t?new Date(t*1000).toLocaleString('ru-RU',{timeZone:'UTC'})+' UTC':'—';
 const el=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
 const field=(list,key,value)=>{const line=el('div');line.append(el('dt',key),el('dd',value));list.append(line);};
