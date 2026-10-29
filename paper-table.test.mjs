@@ -1,7 +1,7 @@
 import test from 'node:test';
 import {readFile} from 'node:fs/promises';
 import assert from 'node:assert/strict';
-const model = await import('./paper-table-model.mjs').catch(() => ({}));
+const model = await import('./paper-table-model.mjs?v=r4visual1').catch(() => ({}));
 test('net PnL separates closed cash from approximate snapshot marks and missing values', () => {
  assert.equal(typeof model.pnlModel,'function');
  const closed=model.pnlModel({closed:120,cost:.1,proceeds:.12},200);
@@ -46,7 +46,7 @@ test('counts identify feed truncation with explicit or wallet totals',()=>{
 });
 test('frontend has semantic scroll table, new feed/cache path, safe text and all filters',async()=>{
  const html=await readFile(new URL('./index.html',import.meta.url),'utf8');
- const js=await readFile(new URL('./paper.mjs',import.meta.url),'utf8');
+ const js=await readFile(new URL('./paper.mjs?v=r4visual1',import.meta.url),'utf8');
  assert.match(html,/<table[ >]/); assert.match(html,/<tbody id="positions"/); assert.match(html,/scope="col"/);
  assert.match(html,/id="status-filter"/); assert.match(html,/id="sort"/); assert.match(html,/overflow:auto/);
  assert.match(html,/paper.mjs\?v=[\w.-]+/); assert.match(js,/refs\/heads\/paper-feed\/live-paper.json/);
@@ -61,7 +61,7 @@ test('frontend renders safe rows, snapshot marks, empty tbody and preserves filt
  try {
   globalThis.document={getElementById:id=>ids[id]||null,createElement:tag=>new Node(tag)};
   globalThis.setInterval=()=>0; globalThis.fetch=async()=>({ok:true,json:async()=>snapshot});
-  await import('./paper.mjs?test=table1'); await new Promise(resolve=>setImmediate(resolve));
+  await import('./paper.mjs?v=r4visual1'); await new Promise(resolve=>setImmediate(resolve));
   assert.equal(ids.wallets.children.length,5); assert.equal(ids.positions.children[0].tag,'tr');
   const row=ids.positions.children[0]; assert.equal(row.children.length,9); assert.equal(row.children[0].children[0].textContent,'<img onerror=bad>');
   assert.equal(row.children[2].textContent,'—'); assert.equal(row.children[4].textContent,'—');
@@ -76,22 +76,22 @@ test('frontend renders safe rows, snapshot marks, empty tbody and preserves filt
   snapshot.positions=[{...snapshot.positions[0],strategy:'tp100',strategy_disabled:true,frozen_at:150,last_seen:140},
    {strategy:'tp100',strategy_disabled:true,opened:100,closed:145,cost:.1,proceeds:.12}];
   ids.filter.value='tp100';ids['status-filter'].value='all';await ids.refresh.events.click();
-  assert.match(text(ids.wallets.children[0]),/TP 2× · архив/);
-  assert.match(text(ids.wallets.children[0]),/Архив · без новых входов\/выходов; оценка заморожена/);
+  assert.match(text(ids.wallets.children[0]),/TP 2× · archived/);
+  assert.match(text(ids.wallets.children[0]),/Archived · no new entries\/exits; valuation frozen/);
   assert.match(text(ids.wallets.children[0]),/00:02:30 UTC/);
   assert.equal(ids.wallets.children[0].children[2].className,'big muted');
-  assert.equal(ids.filter.options[0].textContent,'TP 2× · архив');
+  assert.equal(ids.filter.options[0].textContent,'TP 2× · archived');
   assert.match(ids['active-strategies'].textContent,/4/);assert.match(ids['active-rules'].textContent,/4/);
   const frozen=ids.positions.children.find(r=>r.children[5].textContent==='FROZEN');assert.ok(frozen);
-  assert.equal(frozen.children[6].textContent,'50s');assert.match(frozen.children[1].textContent,/архив/);
+  assert.equal(frozen.children[6].textContent,'50s');assert.match(frozen.children[1].textContent,/archived/);
   assert.match(text(frozen.children[7]),/frozen/);assert.equal(frozen.children[7].className,'numeric muted');
   assert.match(frozen.children[7].title,/00:02:20 UTC/);
   const closed=ids.positions.children.find(r=>r!==frozen);assert.equal(closed.children[7].children[0].textContent,'+0.020 SOL');
   assert.doesNotMatch(text(closed.children[7]),/frozen|≈/);
   snapshot.run_status='stopped';snapshot.stopped_at=200;
   await ids.refresh.events.click();
-  assert.match(ids.status.textContent,/Эксперимент завершён/);
-  assert.doesNotMatch(ids.status.textContent,/Демо работает|Снимок устарел/);
+  assert.match(ids.status.textContent,/Test stopped/);
+  assert.doesNotMatch(ids.status.textContent,/Paper test running|Snapshot is stale/);
  } finally {Object.assign(globalThis,globals);}
 });
 test('frozen open HOLD stops at freeze only for strict disabled flag, fails neutral without freeze',()=>{

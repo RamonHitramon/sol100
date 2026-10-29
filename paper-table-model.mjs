@@ -1,3 +1,5 @@
+const strategyNames={tp20:'TP20',tp25:'TP25',tp30:'TP30',tp35:'TP35',tp40:'TP40',tp30be:'TP30BE15'};
+export const strategyLabel=(id,fallback)=>strategyNames[id]||fallback||id||'—';
 const finite = v => typeof v === 'number' && Number.isFinite(v);
 const timestamp = v => finite(v) && v > 0;
 export function pnlModel(p, asof) {
