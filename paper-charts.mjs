@@ -1,6 +1,6 @@
-import {plotModel,pathFor} from './paper-chart-model.mjs?v=r4be1';
-const colors={tp10:'#8e9eff',tp20:'#50d7ad',tp30:'#ffca7a',tp40:'#ef91c2',tp50:'#66c8f2',tp30be:'#d0a5ff'};
-const names={tp10:'TP10',tp20:'TP20',tp30:'TP30',tp40:'TP40',tp50:'TP50',tp30be:'TP30 · BE15'};
+import {plotModel,pathFor} from './paper-chart-model.mjs?v=r4set2';
+const colors={tp20:'#50d7ad',tp25:'#8e9eff',tp30:'#ffca7a',tp35:'#66c8f2',tp40:'#ef91c2',tp30be:'#d0a5ff'};
+const names={tp20:'TP20',tp25:'TP25',tp30:'TP30',tp35:'TP35',tp40:'TP40',tp30be:'TP30 · BE15'};
 const node=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e};
 const svgNode=(tag,attrs={},text)=>{const e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))e.setAttribute(k,v);if(text!==undefined)e.textContent=text;return e};
 const clock=t=>new Date(t*1000).toLocaleTimeString('en-GB',{timeZone:'UTC',hour:'2-digit',minute:'2-digit'});

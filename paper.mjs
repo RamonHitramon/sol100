@@ -1,5 +1,5 @@
-import {updateCharts} from './paper-charts.mjs?v=r4be1';
-import {holdModel,pnlModel,entryDelay,formatDuration,formatUTC,formatSOL,formatPercent,safeLinks,selectPositions,countModel} from './paper-table-model.mjs?v=r4be1';
+import {updateCharts} from './paper-charts.mjs?v=r4set2';
+import {holdModel,pnlModel,entryDelay,formatDuration,formatUTC,formatSOL,formatPercent,safeLinks,selectPositions,countModel} from './paper-table-model.mjs?v=r4set2';
 const feed='https://raw.githubusercontent.com/RamonHitramon/sol100/refs/heads/paper-feed/live-paper.json';
 const $=id=>document.getElementById(id);
 const sol=v=>Number(v).toFixed(3)+' SOL';
