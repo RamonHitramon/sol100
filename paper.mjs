@@ -1,5 +1,5 @@
-import {updateCharts} from './paper-charts.mjs?v=r4v1';
-import {holdModel,pnlModel,entryDelay,formatDuration,formatUTC,formatSOL,formatPercent,safeLinks,selectPositions,countModel} from './paper-table-model.mjs?v=r4v1';
+import {updateCharts} from './paper-charts.mjs?v=r4be1';
+import {holdModel,pnlModel,entryDelay,formatDuration,formatUTC,formatSOL,formatPercent,safeLinks,selectPositions,countModel} from './paper-table-model.mjs?v=r4be1';
 const feed='https://raw.githubusercontent.com/RamonHitramon/sol100/refs/heads/paper-feed/live-paper.json';
 const $=id=>document.getElementById(id);
 const sol=v=>Number(v).toFixed(3)+' SOL';
@@ -35,7 +35,7 @@ export function renderTrades(s){
   const archived=p.strategy_disabled===true||s.wallets.find(w=>w.id===p.strategy)?.disabled||Boolean(s.config?.disabled_strategies?.[p.strategy]);
   const frozen=p.strategy_disabled===true&&p.closed==null;
   const name=(s.wallets.find(w=>w.id===p.strategy)?.name||p.strategy||'—')+(archived?' · архив':'');const strategy=el('td',name,'strategy-cell');
-  strategy.title=name;row.append(strategy);
+  strategy.title=name;if(p.strategy==='tp30be')strategy.append(el('small',p.armed?'Безубыток включён':'Ждёт +15%'));row.append(strategy);
   row.append(el('td',formatUTC(p.signal_at),'utc'),el('td',formatUTC(p.opened),'utc'),el('td',formatDuration(entryDelay(p)),'numeric'));
   const exit=el('td',p.closed==null?(frozen?'FROZEN':'OPEN'):formatUTC(p.closed),p.closed==null?'muted':'utc');exit.title=frozen?'Заморожено: '+formatUTC(p.frozen_at).replace('\n',' · '):p.reason||'Открытая виртуальная позиция';row.append(exit);
   const hold=holdModel(p,s.updated_at);row.append(el('td',formatDuration(hold.seconds),'numeric '+hold.tone));
