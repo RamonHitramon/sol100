@@ -33,7 +33,7 @@ test('English main UI preserves terminology, rules, links and consistent module 
  assert.match(visible,/gross \+15%.*fixed modeled net break-even stop/);assert.match(visible,/TP30 remains active/);
  assert.match(visible,/not a trailing stop/);assert.match(visible,/sampled quotes; a gap can produce a negative result/);
  assert.match(visible,/Free SOL is spendable virtual cash, not the marked value of open tokens/);
- assert.match(visible,/shared persistent budget of 24 quotes\/min/);
+ assert.match(visible,/shared persistent budget of 48 quotes\/min/);
  assert.match(html,/href="https:\/\/ramonhitramon.github.io\/gmgn_100kmcap\/"/);
  assert.match(html,/rel="canonical" href="https:\/\/ramonhitramon.github.io\/sol100\/"/);
  for(let i=0;i<ids.length;i++)assert.ok(html.includes(`value="${ids[i]}">${labels[i]}</option>`));
